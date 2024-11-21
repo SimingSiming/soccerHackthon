@@ -1,6 +1,10 @@
 import pandas as pd
-def get_team_data(team_data_path, team_name):
+def get_team_data(team_data_path, team_name, year = 2024):
     team_data = pd.read_csv(team_data_path)
+    team_data['date'] = pd.to_datetime(team_data['date'])
+
+    # Filter rows where the year is 2024
+    team_data = team_data[team_data['date'].dt.year == year]
     team_data['team'] = team_data['team'].apply(lambda x: x.strip() if isinstance(x, str) else x)
     matching_teams = [team for team in team_data['team'].unique() if team_name.lower() in team.lower()]
     
